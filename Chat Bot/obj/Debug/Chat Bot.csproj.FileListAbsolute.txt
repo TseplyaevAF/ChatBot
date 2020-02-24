@@ -1,0 +1,20 @@
+E:\прога\C#\Chat Bot\Chat Bot\bin\Debug\Chat Bot.exe.config
+E:\прога\C#\Chat Bot\Chat Bot\bin\Debug\Chat Bot.exe
+E:\прога\C#\Chat Bot\Chat Bot\bin\Debug\Chat Bot.pdb
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csprojAssemblyReference.cache
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.LoginForm.resources
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.Properties.Resources.resources
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csproj.GenerateResource.cache
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat Bot.exe
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat Bot.pdb
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.ChatForm.resources
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\bin\Debug\Chat Bot.exe.config
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\bin\Debug\Chat Bot.exe
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\bin\Debug\Chat Bot.pdb
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csprojAssemblyReference.cache
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.ChatForm.resources
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.LoginForm.resources
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.Properties.Resources.resources
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csproj.GenerateResource.cache
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.exe
+C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.pdb
