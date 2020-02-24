@@ -32,21 +32,21 @@
             this.ChatText = new System.Windows.Forms.TextBox();
             this.AnswerText = new System.Windows.Forms.TextBox();
             this.SendButton = new System.Windows.Forms.Button();
+            this.ClearDialogButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ChatText
             // 
             this.ChatText.BackColor = System.Drawing.SystemColors.Window;
             this.ChatText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.ChatText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ChatText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ChatText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(104)))), ((int)(((byte)(14)))));
-            this.ChatText.Location = new System.Drawing.Point(21, 40);
+            this.ChatText.Location = new System.Drawing.Point(21, 12);
             this.ChatText.Multiline = true;
             this.ChatText.Name = "ChatText";
             this.ChatText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ChatText.Size = new System.Drawing.Size(381, 196);
+            this.ChatText.Size = new System.Drawing.Size(381, 224);
             this.ChatText.TabIndex = 0;
-            this.ChatText.Text = "[23.02.20, 18:23] Саша: Привет, Бот!\r\nsds\r\n";
             // 
             // AnswerText
             // 
@@ -71,20 +71,36 @@
             this.SendButton.UseVisualStyleBackColor = false;
             this.SendButton.Click += new System.EventHandler(this.SendButton_Click);
             // 
+            // ClearDialogButton
+            // 
+            this.ClearDialogButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(101)))), ((int)(((byte)(104)))));
+            this.ClearDialogButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClearDialogButton.ForeColor = System.Drawing.SystemColors.Control;
+            this.ClearDialogButton.Location = new System.Drawing.Point(408, 255);
+            this.ClearDialogButton.Name = "ClearDialogButton";
+            this.ClearDialogButton.Size = new System.Drawing.Size(115, 31);
+            this.ClearDialogButton.TabIndex = 3;
+            this.ClearDialogButton.Text = "Очистить диалог";
+            this.ClearDialogButton.UseVisualStyleBackColor = false;
+            this.ClearDialogButton.Click += new System.EventHandler(this.ClearDialogButton_Click);
+            // 
             // ChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(535, 326);
+            this.Controls.Add(this.ClearDialogButton);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.AnswerText);
             this.Controls.Add(this.ChatText);
+            this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(551, 365);
             this.MinimumSize = new System.Drawing.Size(551, 365);
             this.Name = "ChatForm";
             this.Text = "Чат Бот";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ChatForm_FormClosed);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatForm_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,6 +111,7 @@
         private System.Windows.Forms.TextBox ChatText;
         private System.Windows.Forms.TextBox AnswerText;
         private System.Windows.Forms.Button SendButton;
+        private System.Windows.Forms.Button ClearDialogButton;
     }
 }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Chat_Bot
 {
@@ -17,6 +18,7 @@ namespace Chat_Bot
         {
             InitializeComponent();
             ChatText.ReadOnly = true;
+            AnswerText.Select();
         }
         public void RestoreChat()
         {
@@ -44,22 +46,41 @@ namespace Chat_Bot
             {
                 DateTime date1 = new DateTime();
                 date1 = DateTime.Now;
-                string date = "[" + date1.Hour.ToString() + ":" 
+                string date = "[" + date1.Hour.ToString() + ":"
                     + date1.Minute.ToString() + "]";
-                String [] answer = AnswerText.Text.Split(new String[] { "\r\n" },
+                String[] answer = AnswerText.Text.Split(new String[] { "\r\n" },
                     StringSplitOptions.RemoveEmptyEntries);
                 answer[0] = answer[0].Insert(0, date + " " + bot.userName + ": ");
 
-                bot.SetAnswer(answer);
+                bot.AddToHistory(answer);
 
                 for (int i = 0; i < answer.Length; i++)
                 {
                     ChatText.AppendText(answer[i] + "\r\n");
                 }
                 AnswerText.Text = "";
+                string[] botAnswer = new string[] { bot.CheckQuestion(answer[0]) };
+                botAnswer[0] = botAnswer[0].Insert(0, "Бот: ");
+                ChatText.AppendText(botAnswer[0] + Environment.NewLine);
+
+                bot.AddToHistory(botAnswer);
             }
 
-            
+        }
+
+        private void ChatForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == (char)Keys.Enter)
+            {
+                SendButton_Click(SendButton, null);
+            }
+        }
+
+        private void ClearDialogButton_Click(object sender, EventArgs e)
+        {
+            File.WriteAllText(bot.path, string.Empty);
+            bot.history.Clear();
+            ChatText.Text = "";
         }
     }
 }
