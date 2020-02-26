@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChatForm));
             this.ChatText = new System.Windows.Forms.TextBox();
-            this.AnswerText = new System.Windows.Forms.TextBox();
+            this.QuestionText = new System.Windows.Forms.TextBox();
             this.SendButton = new System.Windows.Forms.Button();
             this.ClearDialogButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -50,11 +50,11 @@
             // 
             // AnswerText
             // 
-            this.AnswerText.Location = new System.Drawing.Point(21, 255);
-            this.AnswerText.Multiline = true;
-            this.AnswerText.Name = "AnswerText";
-            this.AnswerText.Size = new System.Drawing.Size(258, 59);
-            this.AnswerText.TabIndex = 1;
+            this.QuestionText.Location = new System.Drawing.Point(21, 255);
+            this.QuestionText.Multiline = true;
+            this.QuestionText.Name = "AnswerText";
+            this.QuestionText.Size = new System.Drawing.Size(258, 59);
+            this.QuestionText.TabIndex = 1;
             // 
             // SendButton
             // 
@@ -92,7 +92,7 @@
             this.ClientSize = new System.Drawing.Size(535, 326);
             this.Controls.Add(this.ClearDialogButton);
             this.Controls.Add(this.SendButton);
-            this.Controls.Add(this.AnswerText);
+            this.Controls.Add(this.QuestionText);
             this.Controls.Add(this.ChatText);
             this.KeyPreview = true;
             this.MaximumSize = new System.Drawing.Size(551, 365);
@@ -109,7 +109,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox ChatText;
-        private System.Windows.Forms.TextBox AnswerText;
+        private System.Windows.Forms.TextBox QuestionText;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.Button ClearDialogButton;
     }

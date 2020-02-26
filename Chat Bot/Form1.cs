@@ -18,13 +18,13 @@ namespace Chat_Bot
         {
             InitializeComponent();
             ChatText.ReadOnly = true;
-            AnswerText.Select();
+            QuestionText.Select();
         }
         public void RestoreChat()
         {
-            for (int i = 0; i < bot.history.Count; i++)
+            for (int i = 0; i < bot.History.Count; i++)
             {
-                ChatText.Text += bot.history[i] + Environment.NewLine;
+                ChatText.Text += bot.History[i] + Environment.NewLine;
             }
         }
 
@@ -42,24 +42,24 @@ namespace Chat_Bot
 
         private void SendButton_Click(object sender, EventArgs e)
         {
-            if (AnswerText.Text != "")
+            if (QuestionText.Text != "")
             {
                 DateTime date1 = new DateTime();
                 date1 = DateTime.Now;
                 string date = "[" + date1.Hour.ToString() + ":"
                     + date1.Minute.ToString() + "]";
-                String[] answer = AnswerText.Text.Split(new String[] { "\r\n" },
+                String[] userQuestion = QuestionText.Text.Split(new String[] { "\r\n" },
                     StringSplitOptions.RemoveEmptyEntries);
-                answer[0] = answer[0].Insert(0, date + " " + bot.userName + ": ");
+                userQuestion[0] = userQuestion[0].Insert(0, date + " " + bot.UserName + ": ");
 
-                bot.AddToHistory(answer);
+                bot.AddToHistory(userQuestion);
 
-                for (int i = 0; i < answer.Length; i++)
+                for (int i = 0; i < userQuestion.Length; i++)
                 {
-                    ChatText.AppendText(answer[i] + "\r\n");
+                    ChatText.AppendText(userQuestion[i] + "\r\n");
                 }
-                AnswerText.Text = "";
-                string[] botAnswer = new string[] { bot.CheckQuestion(answer[0]) };
+                QuestionText.Text = "";
+                string[] botAnswer = new string[] { bot.CheckQuestion(userQuestion[0]) };
                 botAnswer[0] = botAnswer[0].Insert(0, "Бот: ");
                 ChatText.AppendText(botAnswer[0] + Environment.NewLine);
 
@@ -78,8 +78,8 @@ namespace Chat_Bot
 
         private void ClearDialogButton_Click(object sender, EventArgs e)
         {
-            File.WriteAllText(bot.path, string.Empty);
-            bot.history.Clear();
+            File.WriteAllText(bot.Path, string.Empty);
+            bot.History.Clear();
             ChatText.Text = "";
         }
     }

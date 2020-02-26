@@ -56,7 +56,7 @@ namespace Chat_Bot
             } else
             {
                 ChatForm frm = new ChatForm();
-                frm.bot.SearchFile(EntryField.Text);
+                frm.bot.LoadHistory(EntryField.Text);
                 frm.Show();
                 frm.RestoreChat();
                 this.Hide();
