@@ -44,22 +44,19 @@ namespace Chat_Bot
         {
             if (QuestionText.Text != "")
             {
-                DateTime date1 = new DateTime();
-                date1 = DateTime.Now;
-                string date = "[" + date1.Hour.ToString() + ":"
-                    + date1.Minute.ToString() + "]";
                 String[] userQuestion = QuestionText.Text.Split(new String[] { "\r\n" },
                     StringSplitOptions.RemoveEmptyEntries);
-                userQuestion[0] = userQuestion[0].Insert(0, date + " " + bot.UserName + ": ");
+
+                string message = userQuestion[0]; // для отправки боту
+
+                userQuestion[0] = userQuestion[0].Insert(0, 
+                    "[" + DateTime.Now.ToString("hh:mm") + "] " + bot.UserName + ": ");
 
                 bot.AddToHistory(userQuestion);
 
-                for (int i = 0; i < userQuestion.Length; i++)
-                {
-                    ChatText.AppendText(userQuestion[i] + "\r\n");
-                }
+                ChatText.AppendText(userQuestion[0] + "\r\n");
                 QuestionText.Text = "";
-                string[] botAnswer = new string[] { bot.CheckQuestion(userQuestion[0]) };
+                string[] botAnswer = new string[] { bot.CheckQuestion(message) };
                 botAnswer[0] = botAnswer[0].Insert(0, "Бот: ");
                 ChatText.AppendText(botAnswer[0] + Environment.NewLine);
 

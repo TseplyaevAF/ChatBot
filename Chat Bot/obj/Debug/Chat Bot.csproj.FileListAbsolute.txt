@@ -18,3 +18,6 @@ C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat_Bot.Propertie
 C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csproj.GenerateResource.cache
 C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.exe
 C:\Users\tsepl\Downloads\Chat Bot\Chat Bot\Chat Bot\obj\Debug\Chat Bot.pdb
+E:\прога\C#\Chat Bot\Chat Bot\bin\Debug\Newtonsoft.Json.dll
+E:\прога\C#\Chat Bot\Chat Bot\bin\Debug\Newtonsoft.Json.xml
+E:\прога\C#\Chat Bot\Chat Bot\obj\Debug\Chat Bot.csproj.CopyComplete

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace Chat_Bot
 {
@@ -84,6 +86,28 @@ namespace Chat_Bot
             File.WriteAllLines(path, history.ToArray(), Encoding.GetEncoding(1251));
         }
 
+        private String[] FindOutWeather()
+        {
+            string url = "http://api.openweathermap.org/data/2.5/weather?q=Chita&units=metric&" +
+                "appid=2856fc0f74411cd143093c7ac9b9a7a0";
+
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+
+            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            string responce;
+
+            using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
+            {
+                responce = streamReader.ReadToEnd();
+            }
+
+            WeatherResponse weather = JsonConvert.DeserializeObject<WeatherResponse>(responce);
+
+            String [] infoWeather =  { weather.Name, weather.Main.Temp.ToString(), weather.Wind.Speed.ToString()};
+            return infoWeather;
+        }
+
         // проверка сообщения от пользователя и возвращения ответа
         public string CheckQuestion(string userQuestion)
         {
@@ -129,12 +153,73 @@ namespace Chat_Bot
             }
 
             {
-                Regex regex = new Regex(@"(?:умножь\s?(\d+)\s?на\s?(\d+))");
+                Regex regex = new Regex(@"(?:умножь(\s)?(\d+)(\s)?на(\s)?(\d+))");
                 if (regex.IsMatch(userQuestion))
                 {
-                    return ".";
+                    userQuestion = userQuestion.Replace(" ", "");
+                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ь')+1);
+                    string[] words = userQuestion.Split(new char[] { 'н', 'а' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                    int num1 = Convert.ToInt32(words[0]);
+                    int num2 = Convert.ToInt32(words[1]);
+                    return (num1 * num2).ToString();
                 }
                     
+            }
+
+            {
+                Regex regex = new Regex(@"(?:раздели(\s)?(\d+)(\s)?на(\s)?(\d+))");
+                if (regex.IsMatch(userQuestion))
+                {
+                    userQuestion = userQuestion.Replace(" ", "");
+                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('и') + 1);
+                    string[] words = userQuestion.Split(new char[] { 'н', 'а' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                    float num1 = Convert.ToInt32(words[0]);
+                    float num2 = Convert.ToInt32(words[1]);
+                    return (num1 / num2).ToString();
+                }
+
+            }
+
+            {
+                Regex regex = new Regex(@"(?:сложи(\s)?(\d+)(\s)?и(\s)?(\d+))");
+                if (regex.IsMatch(userQuestion))
+                {
+                    userQuestion = userQuestion.Replace(" ", "");
+                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ж') + 2);
+                    string[] words = userQuestion.Split(new char[] { 'и' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                    int num1 = Convert.ToInt32(words[0]);
+                    int num2 = Convert.ToInt32(words[1]);
+                    return (num1 + num2).ToString();
+                }
+
+            }
+
+            {
+                Regex regex = new Regex(@"(?:вычти(\s)?(\d+)(\s)?из(\s)?(\d+))");
+                if (regex.IsMatch(userQuestion))
+                {
+                    userQuestion = userQuestion.Replace(" ", "");
+                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('т') + 2);
+                    string[] words = userQuestion.Split(new char[] { 'и', 'з' },
+                    StringSplitOptions.RemoveEmptyEntries);
+                    int num1 = Convert.ToInt32(words[0]);
+                    int num2 = Convert.ToInt32(words[1]);
+                    return (num1 - num2).ToString();
+                }
+
+            }
+
+            {
+                Regex regex = new Regex(@"погода");
+                if (regex.IsMatch(userQuestion))
+                {
+                    String[] infoWeather = FindOutWeather();
+                    return "Погода в городе " + infoWeather[0] + " " + infoWeather[1] + " °C"
+                        + ". Ветер " + infoWeather[2] + " м/c";
+                }
             }
 
             {
