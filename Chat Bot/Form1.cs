@@ -13,7 +13,6 @@ namespace Chat_Bot
 {
     public partial class ChatForm : Form
     {
-        public bool flag = false; // для отслеживания нажатия
 
         public ChatBot bot = new ChatBot();
         public ChatForm()
@@ -39,7 +38,6 @@ namespace Chat_Bot
 
         private void ChatForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (!flag)
             Application.Exit();
         }
 
@@ -88,16 +86,8 @@ namespace Chat_Bot
                         DateTime.Now.ToString("dd.MM.yy"+ "\n")};
                 bot.AddToHistory(date);
                 ChatText.Text = date[0];
-            }
+            }        
         }
 
-        private void CloseChatButton_Click(object sender, EventArgs e)
-        {
-
-            flag = true;
-            Form ifrm = Application.OpenForms[0];
-            ifrm.Show();
-            this.Close();
-        }
     }
 }
