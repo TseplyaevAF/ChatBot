@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Chat_Bot
 {
-    public class ChatBot
+    public class ChatBot : AbstractChatBot
     {
         string userName; // имя пользователя
         string path; // путь к файлу с историей сообщений
@@ -109,7 +109,7 @@ namespace Chat_Bot
         }
 
         // проверка сообщения от пользователя и возвращения ответа
-        public string CheckQuestion(string userQuestion)
+        public override string Answer(string userQuestion)
         {
             userQuestion = userQuestion.ToLower(); // переводим в нижний регистр
             {

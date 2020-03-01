@@ -33,6 +33,7 @@
             this.QuestionText = new System.Windows.Forms.TextBox();
             this.SendButton = new System.Windows.Forms.Button();
             this.ClearDialogButton = new System.Windows.Forms.Button();
+            this.CloseChatButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ChatText
@@ -48,11 +49,11 @@
             this.ChatText.Size = new System.Drawing.Size(381, 224);
             this.ChatText.TabIndex = 0;
             // 
-            // AnswerText
+            // QuestionText
             // 
             this.QuestionText.Location = new System.Drawing.Point(21, 255);
             this.QuestionText.Multiline = true;
-            this.QuestionText.Name = "AnswerText";
+            this.QuestionText.Name = "QuestionText";
             this.QuestionText.Size = new System.Drawing.Size(258, 59);
             this.QuestionText.TabIndex = 1;
             // 
@@ -84,12 +85,26 @@
             this.ClearDialogButton.UseVisualStyleBackColor = false;
             this.ClearDialogButton.Click += new System.EventHandler(this.ClearDialogButton_Click);
             // 
+            // CloseChatButton
+            // 
+            this.CloseChatButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(9)))), ((int)(((byte)(101)))), ((int)(((byte)(104)))));
+            this.CloseChatButton.Font = new System.Drawing.Font("Franklin Gothic Medium", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.CloseChatButton.ForeColor = System.Drawing.SystemColors.Control;
+            this.CloseChatButton.Location = new System.Drawing.Point(408, 283);
+            this.CloseChatButton.Name = "CloseChatButton";
+            this.CloseChatButton.Size = new System.Drawing.Size(115, 31);
+            this.CloseChatButton.TabIndex = 4;
+            this.CloseChatButton.Text = "Покинуть чат";
+            this.CloseChatButton.UseVisualStyleBackColor = false;
+            this.CloseChatButton.Click += new System.EventHandler(this.CloseChatButton_Click);
+            // 
             // ChatForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(535, 326);
+            this.Controls.Add(this.CloseChatButton);
             this.Controls.Add(this.ClearDialogButton);
             this.Controls.Add(this.SendButton);
             this.Controls.Add(this.QuestionText);
@@ -112,6 +127,7 @@
         private System.Windows.Forms.TextBox QuestionText;
         private System.Windows.Forms.Button SendButton;
         private System.Windows.Forms.Button ClearDialogButton;
+        private System.Windows.Forms.Button CloseChatButton;
     }
 }
 

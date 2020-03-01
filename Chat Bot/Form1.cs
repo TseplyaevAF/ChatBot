@@ -13,6 +13,8 @@ namespace Chat_Bot
 {
     public partial class ChatForm : Form
     {
+        public bool flag = false; // для отслеживания нажатия
+
         public ChatBot bot = new ChatBot();
         public ChatForm()
         {
@@ -37,6 +39,7 @@ namespace Chat_Bot
 
         private void ChatForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            if (!flag)
             Application.Exit();
         }
 
@@ -50,13 +53,13 @@ namespace Chat_Bot
                 string message = userQuestion[0]; // для отправки боту
 
                 userQuestion[0] = userQuestion[0].Insert(0, 
-                    "[" + DateTime.Now.ToString("hh:mm") + "] " + bot.UserName + ": ");
+                    "[" + DateTime.Now.ToString("HH:mm") + "] " + bot.UserName + ": ");
 
                 bot.AddToHistory(userQuestion);
 
                 ChatText.AppendText(userQuestion[0] + "\r\n");
                 QuestionText.Text = "";
-                string[] botAnswer = new string[] { bot.CheckQuestion(message) };
+                string[] botAnswer = new string[] { bot.Answer(message) };
                 botAnswer[0] = botAnswer[0].Insert(0, "Бот: ");
                 ChatText.AppendText(botAnswer[0] + Environment.NewLine);
 
@@ -75,9 +78,26 @@ namespace Chat_Bot
 
         private void ClearDialogButton_Click(object sender, EventArgs e)
         {
-            File.WriteAllText(bot.Path, string.Empty);
-            bot.History.Clear();
-            ChatText.Text = "";
+            DialogResult dialogResult = MessageBox.Show("Уверены," +
+                "что хотите очистить диалог?", "Подтверждение", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                File.WriteAllText(bot.Path, string.Empty);
+                bot.History.Clear();
+                String[] date = new String[] {"Переписка от " +
+                        DateTime.Now.ToString("dd.MM.yy"+ "\n")};
+                bot.AddToHistory(date);
+                ChatText.Text = date[0];
+            }
+        }
+
+        private void CloseChatButton_Click(object sender, EventArgs e)
+        {
+
+            flag = true;
+            Form ifrm = Application.OpenForms[0];
+            ifrm.Show();
+            this.Close();
         }
     }
 }
