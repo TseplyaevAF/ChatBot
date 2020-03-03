@@ -121,15 +121,13 @@ namespace Chat_Bot
             {
                 Regex regex = new Regex(@"(?:который час\??|сколько времени\??)");
                 if (regex.IsMatch(userQuestion))
-                    return "Сейчас: " + DateTime.Now.Hour.ToString() + ":" +
-                        DateTime.Now.Minute.ToString();
+                    return "Сейчас: " + DateTime.Now.ToString("HH:mm");
             }
 
             {
                 Regex regex = new Regex(@"(?:какое сегодня число\??|число\??)");
                 if (regex.IsMatch(userQuestion))
-                    return "Сегодня: " + DateTime.Now.Day + "." + DateTime.Now.Month +
-                        "." + DateTime.Now.Year;
+                    return "Сегодня: " + DateTime.Now.ToString("dd.MM.yy");
             }
 
             {
@@ -160,9 +158,15 @@ namespace Chat_Bot
                     userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ь')+1);
                     string[] words = userQuestion.Split(new char[] { 'н', 'а' },
                     StringSplitOptions.RemoveEmptyEntries);
-                    int num1 = Convert.ToInt32(words[0]);
-                    int num2 = Convert.ToInt32(words[1]);
-                    return (num1 * num2).ToString();
+                    try
+                    {
+                        int num1 = Convert.ToInt32(words[0]);
+                        int num2 = Convert.ToInt32(words[1]);
+                        return (num1 * num2).ToString();
+                    } catch
+                    {
+                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+                    }
                 }
                     
             }
@@ -175,9 +179,16 @@ namespace Chat_Bot
                     userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('и') + 1);
                     string[] words = userQuestion.Split(new char[] { 'н', 'а' },
                     StringSplitOptions.RemoveEmptyEntries);
-                    float num1 = Convert.ToInt32(words[0]);
-                    float num2 = Convert.ToInt32(words[1]);
-                    return (num1 / num2).ToString();
+                    try
+                    {
+                        float num1 = Convert.ToInt32(words[0]);
+                        float num2 = Convert.ToInt32(words[1]);
+                        return (num1 / num2).ToString();
+                    }
+                    catch
+                    {
+                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+                    }
                 }
 
             }
@@ -190,9 +201,16 @@ namespace Chat_Bot
                     userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ж') + 2);
                     string[] words = userQuestion.Split(new char[] { 'и' },
                     StringSplitOptions.RemoveEmptyEntries);
-                    int num1 = Convert.ToInt32(words[0]);
-                    int num2 = Convert.ToInt32(words[1]);
-                    return (num1 + num2).ToString();
+                    try
+                    {
+                        int num1 = Convert.ToInt32(words[0]);
+                        int num2 = Convert.ToInt32(words[1]);
+                        return (num1 + num2).ToString();
+                    }
+                    catch
+                    {
+                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+                    }
                 }
 
             }
@@ -205,9 +223,16 @@ namespace Chat_Bot
                     userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('т') + 2);
                     string[] words = userQuestion.Split(new char[] { 'и', 'з' },
                     StringSplitOptions.RemoveEmptyEntries);
-                    int num1 = Convert.ToInt32(words[0]);
-                    int num2 = Convert.ToInt32(words[1]);
-                    return (num1 - num2).ToString();
+                    try
+                    {
+                        int num1 = Convert.ToInt32(words[0]);
+                        int num2 = Convert.ToInt32(words[1]);
+                        return (num1 + num2).ToString();
+                    }
+                    catch
+                    {
+                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+                    }
                 }
 
             }
