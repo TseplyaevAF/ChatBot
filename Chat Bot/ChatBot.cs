@@ -12,9 +12,150 @@ namespace Chat_Bot
 {
     public class ChatBot : AbstractChatBot
     {
-        string userName; // имя пользователя
+        static string userName; // имя пользователя
         string path; // путь к файлу с историей сообщений
         List<string> history = new List<string>(); // хранение истории
+
+        List<Regex> regecies = new List<Regex>
+        {
+            new Regex(@"привет\s?\,?\s?б{1}о{1}т{1}"),
+            new Regex(@"(?:который час\??|сколько времени\??)"),
+            new Regex(@"(?:какое сегодня число\??|число\??)"),
+            new Regex(@"как дела\??"),
+            new Regex(@"(?:спасибо|благодарю)"),
+            new Regex(@"(?:умножь(\s)?(\d+)(\s)?на(\s)?(\d+))"),
+            new Regex(@"(?:раздели(\s)?(\d+)(\s)?на(\s)?(\d+))"),
+            new Regex(@"(?:сложи(\s)?(\d+)(\s)?и(\s)?(\d+))"),
+            new Regex(@"(?:вычти(\s)?(\d+)(\s)?из(\s)?(\d+))"),
+            new Regex(@"погода")
+        };
+
+        Func<string, string> func; //буфер
+
+        List<Func<string, string>> funcBuf = new List<Func<string, string>>
+            {
+                HelloBot,
+                HowTime,
+                HowDate,
+                HowAreYou,
+                ThankYou,
+                MulPls,
+                DivPls,
+                PlusPls,
+                SubPls,
+                WeatherPls
+            };
+
+        static string HelloBot(string question)
+        {
+            return "Привет, " + userName + "!";
+        }
+
+        static string HowTime(string question)
+        {
+            return "Сейчас: " + DateTime.Now.ToString("HH:mm");
+        }
+
+        static string HowDate(string question)
+        {
+            return "Сегодня: " + DateTime.Now.ToString("dd.MM.yy");
+        }
+
+        static string HowAreYou(string question)
+        {
+            Random rnd = new Random();
+            int value = rnd.Next();
+            if (value % 2 == 0)
+                return "Все хорошо! Спасибо, что спросили :)";
+            else
+            {
+                return "Как бот, чувствую себя весьма неплохо :)";
+            }
+        }
+
+        static string ThankYou(string question)
+        {
+            return "Рад был помочь!";
+        }
+
+        static string MulPls(string question)
+        {
+            question = question.Replace(" ", "");
+            question = question.Substring(question.LastIndexOf('ь') + 1);
+            string[] words = question.Split(new char[] { 'н', 'а' },
+            StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                int num1 = Convert.ToInt32(words[0]);
+                int num2 = Convert.ToInt32(words[1]);
+                return (num1 * num2).ToString();
+            }
+            catch
+            {
+                return "извините, не могу разобрать. повторите, пожалуйста, ввод.";
+            }
+        }
+
+        static string DivPls(string question)
+        {
+            question = question.Replace(" ", "");
+            question = question.Substring(question.LastIndexOf('и') + 1);
+            string[] words = question.Split(new char[] { 'н', 'а' },
+            StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                float num1 = Convert.ToInt32(words[0]);
+                float num2 = Convert.ToInt32(words[1]);
+                return (num1 / num2).ToString();
+            }
+            catch
+            {
+                return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+            }
+        }
+
+        static string PlusPls(string question)
+        {
+            question = question.Replace(" ", "");
+            question = question.Substring(question.LastIndexOf('ж') + 2);
+            string[] words = question.Split(new char[] { 'и' },
+            StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                int num1 = Convert.ToInt32(words[0]);
+                int num2 = Convert.ToInt32(words[1]);
+                return (num1 + num2).ToString();
+            }
+            catch
+            {
+                return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+            }
+        }
+
+        static string SubPls(string question)
+        {
+            question = question.Replace(" ", "");
+            question = question.Substring(question.LastIndexOf('т') + 2);
+            string[] words = question.Split(new char[] { 'и', 'з' },
+            StringSplitOptions.RemoveEmptyEntries);
+            try
+            {
+                int num1 = Convert.ToInt32(words[0]);
+                int num2 = Convert.ToInt32(words[1]);
+                return (num2 - num1).ToString();
+            }
+            catch
+            {
+                return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
+            }
+        }
+
+        static string WeatherPls(string question)
+        {
+            String[] infoWeather = FindOutWeather();
+            return "Погода в городе " + infoWeather[0] + " " + infoWeather[1] + " °C"
+                + ". Ветер " + infoWeather[2] + " м/c";
+        }
 
         public ChatBot()
         {
@@ -48,10 +189,10 @@ namespace Chat_Bot
             }
         }
 
-        public void LoadHistory(string userName)
+        public void LoadHistory(string user)
         {
+            userName = user;
             path = userName + ".txt"; // запись пути
-            this.userName = userName;
 
             try
             {
@@ -86,7 +227,7 @@ namespace Chat_Bot
             File.WriteAllLines(path, history.ToArray(), Encoding.GetEncoding(1251));
         }
 
-        private String[] FindOutWeather()
+        static private String[] FindOutWeather()
         {
             string url = "http://api.openweathermap.org/data/2.5/weather?q=Chita&units=metric&" +
                 "appid=2856fc0f74411cd143093c7ac9b9a7a0";
@@ -112,144 +253,16 @@ namespace Chat_Bot
         public override string Answer(string userQuestion)
         {
             userQuestion = userQuestion.ToLower(); // переводим в нижний регистр
+            for (int i = 0; i < regecies.Count; i++)
             {
-                Regex regex = new Regex(@"привет\s?\,?\s?б{1}о{1}т{1}");
-                if (regex.IsMatch(userQuestion))
-                    return "Привет, " + this.userName + "!";
-            }
-
-            {
-                Regex regex = new Regex(@"(?:который час\??|сколько времени\??)");
-                if (regex.IsMatch(userQuestion))
-                    return "Сейчас: " + DateTime.Now.ToString("HH:mm");
-            }
-
-            {
-                Regex regex = new Regex(@"(?:какое сегодня число\??|число\??)");
-                if (regex.IsMatch(userQuestion))
-                    return "Сегодня: " + DateTime.Now.ToString("dd.MM.yy");
-            }
-
-            {
-                Regex regex = new Regex(@"как дела\??");
-                if (regex.IsMatch(userQuestion))
+                if (regecies[i].IsMatch(userQuestion))
                 {
-                    Random rnd = new Random();
-                    int value = rnd.Next();
-                    if ( value % 2 == 0)
-                    return "Все хорошо! Спасибо, что спросили :)"; else
-                    {
-                        return "Как бот, чувствую себя весьма неплохо :)";
-                    }
+                    func = funcBuf[i];
+                    return func(userQuestion);
                 }
+                
             }
-
-            {
-                Regex regex = new Regex(@"(?:спасибо|благодарю)");
-                if (regex.IsMatch(userQuestion))
-                    return "Рад был помочь!";
-            }
-
-            {
-                Regex regex = new Regex(@"(?:умножь(\s)?(\d+)(\s)?на(\s)?(\d+))");
-                if (regex.IsMatch(userQuestion))
-                {
-                    userQuestion = userQuestion.Replace(" ", "");
-                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ь')+1);
-                    string[] words = userQuestion.Split(new char[] { 'н', 'а' },
-                    StringSplitOptions.RemoveEmptyEntries);
-                    try
-                    {
-                        int num1 = Convert.ToInt32(words[0]);
-                        int num2 = Convert.ToInt32(words[1]);
-                        return (num1 * num2).ToString();
-                    } catch
-                    {
-                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
-                    }
-                }
-                    
-            }
-
-            {
-                Regex regex = new Regex(@"(?:раздели(\s)?(\d+)(\s)?на(\s)?(\d+))");
-                if (regex.IsMatch(userQuestion))
-                {
-                    userQuestion = userQuestion.Replace(" ", "");
-                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('и') + 1);
-                    string[] words = userQuestion.Split(new char[] { 'н', 'а' },
-                    StringSplitOptions.RemoveEmptyEntries);
-                    try
-                    {
-                        float num1 = Convert.ToInt32(words[0]);
-                        float num2 = Convert.ToInt32(words[1]);
-                        return (num1 / num2).ToString();
-                    }
-                    catch
-                    {
-                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
-                    }
-                }
-
-            }
-
-            {
-                Regex regex = new Regex(@"(?:сложи(\s)?(\d+)(\s)?и(\s)?(\d+))");
-                if (regex.IsMatch(userQuestion))
-                {
-                    userQuestion = userQuestion.Replace(" ", "");
-                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('ж') + 2);
-                    string[] words = userQuestion.Split(new char[] { 'и' },
-                    StringSplitOptions.RemoveEmptyEntries);
-                    try
-                    {
-                        int num1 = Convert.ToInt32(words[0]);
-                        int num2 = Convert.ToInt32(words[1]);
-                        return (num1 + num2).ToString();
-                    }
-                    catch
-                    {
-                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
-                    }
-                }
-
-            }
-
-            {
-                Regex regex = new Regex(@"(?:вычти(\s)?(\d+)(\s)?из(\s)?(\d+))");
-                if (regex.IsMatch(userQuestion))
-                {
-                    userQuestion = userQuestion.Replace(" ", "");
-                    userQuestion = userQuestion.Substring(userQuestion.LastIndexOf('т') + 2);
-                    string[] words = userQuestion.Split(new char[] { 'и', 'з' },
-                    StringSplitOptions.RemoveEmptyEntries);
-                    try
-                    {
-                        int num1 = Convert.ToInt32(words[0]);
-                        int num2 = Convert.ToInt32(words[1]);
-                        return (num1 + num2).ToString();
-                    }
-                    catch
-                    {
-                        return "Извините, не могу разобрать. Повторите, пожалуйста, ввод.";
-                    }
-                }
-
-            }
-
-            {
-                Regex regex = new Regex(@"погода");
-                if (regex.IsMatch(userQuestion))
-                {
-                    String[] infoWeather = FindOutWeather();
-                    return "Погода в городе " + infoWeather[0] + " " + infoWeather[1] + " °C"
-                        + ". Ветер " + infoWeather[2] + " м/c";
-                }
-            }
-
-            {
-                return "Извините, я вас не понимаю";
-            }
+            return "Извините, я вас не понимаю";
         }
     }
 }
