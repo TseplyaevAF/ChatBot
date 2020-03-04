@@ -30,9 +30,9 @@ namespace Chat_Bot
             new Regex(@"погода")
         };
 
-        Func<string, string> func; //буфер
+        Func<string, string> funcBuf; //буфер
 
-        List<Func<string, string>> funcBuf = new List<Func<string, string>>
+        List<Func<string, string>> func = new List<Func<string, string>>
             {
                 HelloBot,
                 HowTime,
@@ -257,8 +257,8 @@ namespace Chat_Bot
             {
                 if (regecies[i].IsMatch(userQuestion))
                 {
-                    func = funcBuf[i];
-                    return func(userQuestion);
+                    funcBuf = func[i];
+                    return funcBuf(userQuestion);
                 }
                 
             }
